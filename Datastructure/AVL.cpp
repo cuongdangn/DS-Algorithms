@@ -23,7 +23,7 @@ class AVL
 
         AVL()
         {
-           root = NULL;
+           root = nullptr;
         }
         
         ~AVL()
@@ -59,7 +59,7 @@ class AVL
 // larger elements go right
 tree_node* AVL::kthMaxValueNode(tree_node* r,int k)
 {
-    if(r==NULL)
+    if(r==nullptr)
         return r;
     int numl = getChild(r->left);
     if(k-numl == 1)
@@ -71,7 +71,7 @@ tree_node* AVL::kthMaxValueNode(tree_node* r,int k)
 }
 int AVL::getHeight(tree_node* x)
 {
-    if(x==NULL)
+    if(x==nullptr)
         return -1;
     return x->height;
 }
@@ -157,11 +157,11 @@ tree_node* AVL::ReBalance(tree_node* curr)
 }
 tree_node* AVL::insert_(tree_node* curr,int d)
 {
-    if(curr==NULL){
+    if(curr==nullptr){
         tree_node* t = new tree_node;
         t->data = d;
-        t->left = NULL;
-        t->right = NULL;
+        t->left = nullptr;
+        t->right = nullptr;
 //        t->parrent = NULL;
         t->child = 1;
         t->height = 0;
@@ -189,8 +189,8 @@ void AVL::insert(int d)
     tree_node* t = new tree_node;
 
     t->data = d;
-    t->left = NULL;
-    t->right = NULL;
+    t->left = nullptr;
+    t->right = nullptr;
 //    t->parrent = NULL;
     t->child = 1;
     t->height = 0;
@@ -221,7 +221,7 @@ tree_node * AVL::maxValueNode(tree_node* node)
     tree_node* current = node;
 
     /* loop down to find the leftmost leaf */
-    while (current->right != NULL)
+    while (current->right != nullptr)
         current = current->right;
 
     return current;
@@ -246,13 +246,13 @@ tree_node* AVL::deleteNode(tree_node *root,int key)
     else
     {
         // node with only one child or no child
-        if (root->left == NULL)
+        if (root->left == nullptr)
         {
             tree_node *temp = root->right;
             free(root);
             return temp;
         }
-        else if (root->right == NULL)
+        else if (root->right == nullptr)
         {
             tree_node *temp = root->left;
             free(root);
@@ -285,7 +285,7 @@ void AVL::print_inorder()
 
 void AVL::inorder(tree_node* p)
 {
-    if(p != NULL)
+    if(p != nullptr)
     {
         if(p->left) inorder(p->left);
         cout<<" "<<p->data<<" ";
@@ -301,7 +301,7 @@ void AVL::print_preorder()
 
 void AVL::preorder(tree_node* p)
 {
-    if(p != NULL)
+    if(p != nullptr)
     {
         cout<<" "<<p->data<<" ";
         if(p->left) preorder(p->left);
@@ -316,7 +316,7 @@ void AVL::print_postorder()
 }
 int AVL::coun(tree_node* x,int a)
 {
-    if(x==NULL) return 0;
+    if(x==nullptr) return 0;
     if(a>x->data){
         return coun(x->right,a)+1+getChild(x->left);
     }
@@ -327,7 +327,7 @@ int AVL::coun(tree_node* x,int a)
 }
 void AVL::postorder(tree_node* p)
 {
-    if(p != NULL)
+    if(p != nullptr)
     {
         if(p->left) postorder(p->left);
         if(p->right) postorder(p->right);
@@ -342,7 +342,7 @@ int n;
 int a;
 char c;
 AVL tree;
-map<int,int> mm;
+unordered_map<int,int> mm;
 int main()
 {
   //  freopen("code.in","r",stdin);
