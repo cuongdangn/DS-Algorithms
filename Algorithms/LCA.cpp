@@ -24,18 +24,39 @@ void input()
         adj[u].push_back(i + 1);
     }
 }
-void dfs(int x)
+// void dfs(int x)
+// {
+//     visited[x] = true;
+//     int siz = adj[x].size();
+//     for (int i = 0; i < siz; i++)
+//         if (!visited[adj[x][i]])
+//         {
+//             par[adj[x][i]][0] = x;
+//             h[adj[x][i]] = h[x] + 1;
+//             dfs(adj[x][i]);
+//         }
+// }
+
+void bfs(int x)
 {
-    visited[x] = true;
-    int siz = adj[x].size();
-    for (int i = 0; i < siz; i++)
-        if (!visited[adj[x][i]])
-        {
-            par[adj[x][i]][0] = x;
-            h[adj[x][i]] = h[x] + 1;
-            dfs(adj[x][i]);
-        }
+    queue<int> myque;
+
+    myque.push(x);
+
+    while(!myque.empty()) {
+        int u = myque.front();
+        myque.pop();
+        visited[u] = true;
+        for (int v : adj[u]) 
+            if(!visited[v]){
+                h[v] = h[u] + 1;
+                par[v][0] = u;
+                myque.push(v);
+            }
+    }
+
 }
+
 void initLCA()
 {
     lev = trunc(log(n) / log(2)) + 1;
@@ -82,7 +103,7 @@ void init()
 {
     for (int i = 1; i <= n; i++)
         visited[i] = false;
-    dfs(1);
+    bfs(1);
     initLCA();
 }
 
