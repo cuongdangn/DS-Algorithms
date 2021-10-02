@@ -4,38 +4,41 @@
 using namespace std;
 
 const int N = 10005;
-struct egde{
-    int u,v;
+struct egde
+{
+    int u, v;
     int w;
 };
-
 
 vector<int> adj[N];
 int parent[N];
 int nChild[N];
 int chainHead[N], chainInd[N], posInBase[N];
-int n,nChain, nBase;
+int n, nChain, nBase;
 
 void input()
 {
-    scanf("%d",&n);
-    int u,v,m;
-    for(int i=1;i<=n;i++){
-        scanf("%d",&m);
+    scanf("%d", &n);
+    int u, v, m;
+    for (int i = 1; i <= n; i++)
+    {
+        scanf("%d", &m);
         adj[i].clear();
-        for(int j=1;j<=m;j++){
-            scanf("%d",&u);
+        for (int j = 1; j <= m; j++)
+        {
+            scanf("%d", &u);
             adj[i].push_back(u);
         }
     }
-
 }
 void dfs(int a)
 {
     int m = adj[a].size();
-    for(int i=0;i<m;i++){
+    for (int i = 0; i < m; i++)
+    {
         int u = adj[a][i];
-        if(parent[u] ==0){
+        if (parent[u] == 0)
+        {
             parent[u] = a;
             dfs(u);
             nChild[a] += nChild[u];
@@ -43,45 +46,48 @@ void dfs(int a)
     }
     nChild[a]++;
 }
-void hld(int u) {
+void hld(int u)
+{
 
+    if (chainHead[nChain] == 0)
+        chainHead[nChain] = u;
 
-	if (chainHead[nChain] == 0) chainHead[nChain] = u;
+    chainInd[u] = nChain;
 
+    posInBase[u] = ++nBase;
 
-	chainInd[u] = nChain;
-
-
-	posInBase[u] = ++nBase;
-
-
-	int mxVtx = -1;
+    int mxVtx = -1;
 
     int m = adj[u].size();
-	for (int i = 0; i < m; i++) {
-		int v = adj[u][i];
-		if (v != parent[u]) {
-			if (mxVtx == -1 || nChild[v] > nChild[mxVtx]) {
-				mxVtx = v;
-			}
-		}
-	}
+    for (int i = 0; i < m; i++)
+    {
+        int v = adj[u][i];
+        if (v != parent[u])
+        {
+            if (mxVtx == -1 || nChild[v] > nChild[mxVtx])
+            {
+                mxVtx = v;
+            }
+        }
+    }
 
-	if (mxVtx > -1)
-		hld(mxVtx);
+    if (mxVtx > -1)
+        hld(mxVtx);
 
-
-	for (int i = 0; i < adj[u].size(); i++) {
-		int v = adj[u][i];
-		if (v != parent[u] && v != mxVtx) {
-			nChain++;
-			hld(v);
-		}
-	}
+    for (int i = 0; i < adj[u].size(); i++)
+    {
+        int v = adj[u][i];
+        if (v != parent[u] && v != mxVtx)
+        {
+            nChain++;
+            hld(v);
+        }
+    }
 }
 void init()
 {
-    for(int i=1;i<=n;i++){
+    for (int i = 1; i <= n; i++)
+    {
         parent[i] = 0;
         nChild[i] = 0;
         posInBase[i] = 0;
@@ -95,35 +101,37 @@ void init()
 }
 int LCA(int u, int v)
 {
-    while(chainInd[u] != chainInd[v]){
-        if(posInBase[u] < posInBase[v])
+    while (chainInd[u] != chainInd[v])
+    {
+        if (posInBase[u] < posInBase[v])
             v = parent[chainHead[chainInd[v]]];
         else
             u = parent[chainHead[chainInd[u]]];
     }
-    if(posInBase[u]>posInBase[v])
+    if (posInBase[u] > posInBase[v])
         return v;
     return u;
 }
 void solve()
 {
     init();
-    int q,u,v;
-    scanf("%d",&q);
-    while(q--){
-        scanf("%d%d",&u,&v);
-        printf("%d\n",LCA(u,v));
+    int q, u, v;
+    scanf("%d", &q);
+    while (q--)
+    {
+        scanf("%d%d", &u, &v);
+        printf("%d\n", LCA(u, v));
     }
 }
 int main()
 {
     //freopen("code.in","r",stdin);
     int testCase;
-    scanf("%d",&testCase);
-    for(int i=1;i<=testCase;i++){
-        printf("Case %d:\n",i);
+    scanf("%d", &testCase);
+    for (int i = 1; i <= testCase; i++)
+    {
+        printf("Case %d:\n", i);
         input();
         solve();
     }
 }
-

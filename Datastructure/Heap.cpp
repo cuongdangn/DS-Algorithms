@@ -13,7 +13,7 @@ struct Node{
     bool priority(Node p){
         return (p.key<=key);
     }
-     Node(int key_){
+    Node(int key_){
         key = key_;
     }
     Node(){
