@@ -3,11 +3,13 @@
 
 using namespace std;
 
+#define type_tree_data pair<int, int>
+
 struct tree_node{
        tree_node* left;
        tree_node* right;
      //  tree_node* parrent;
-       int data;
+       type_tree_data data;
        int child;
        int height;
        ~tree_node(){
@@ -38,10 +40,10 @@ class AVL
         void preorder(tree_node*);
         void print_postorder();
         void postorder(tree_node*);
-        void insert(int);
-        tree_node* insert_(tree_node*,int);
-        tree_node* deleteNode(tree_node*,int);
-        tree_node* find(int);
+        void insert(type_tree_data);
+        tree_node* insert_(tree_node*,type_tree_data);
+        tree_node* deleteNode(tree_node*,type_tree_data);
+        tree_node* find(type_tree_data);
         tree_node* minValueNode(tree_node*);
         tree_node* maxValueNode(tree_node*);
         tree_node* kthMaxValueNode(tree_node*,int);
@@ -51,7 +53,7 @@ class AVL
         int getBalance(tree_node*);
         tree_node* ReBalance(tree_node*);
         int getChild(tree_node*);
-        int coun(tree_node*,int); // count number of node->data < a
+        int coun(tree_node*,type_tree_data); // count number of node->data < a
 
 };
 
@@ -107,7 +109,7 @@ tree_node* AVL::left_rotate(tree_node* P)
 
     return Q;
 }
-tree_node* AVL::find(int d)
+tree_node* AVL::find(type_tree_data d)
 {
     tree_node* crr = root;
     while(crr!=NULL){
@@ -155,7 +157,7 @@ tree_node* AVL::ReBalance(tree_node* curr)
         return left_rotate(curr);
      }
 }
-tree_node* AVL::insert_(tree_node* curr,int d)
+tree_node* AVL::insert_(tree_node* curr,type_tree_data d)
 {
     if(curr==nullptr){
         tree_node* t = new tree_node;
@@ -184,7 +186,7 @@ tree_node* AVL::insert_(tree_node* curr,int d)
      else
         return ReBalance(curr);
 }
-void AVL::insert(int d)
+void AVL::insert(type_tree_data d)
 {
     tree_node* t = new tree_node;
 
@@ -226,7 +228,7 @@ tree_node * AVL::maxValueNode(tree_node* node)
 
     return current;
 }
-tree_node* AVL::deleteNode(tree_node *root,int key)
+tree_node* AVL::deleteNode(tree_node *root,type_tree_data key)
 {
     //Locate the elemen
     if (root == NULL) return root;
@@ -278,43 +280,7 @@ tree_node* AVL::deleteNode(tree_node *root,int key)
         return ReBalance(root);
 }
 
-void AVL::print_inorder()
-{
-  inorder(root);
-}
-
-void AVL::inorder(tree_node* p)
-{
-    if(p != nullptr)
-    {
-        if(p->left) inorder(p->left);
-        cout<<" "<<p->data<<" ";
-        if(p->right) inorder(p->right);
-    }
-    else return;
-}
-
-void AVL::print_preorder()
-{
-    preorder(root);
-}
-
-void AVL::preorder(tree_node* p)
-{
-    if(p != nullptr)
-    {
-        cout<<" "<<p->data<<" ";
-        if(p->left) preorder(p->left);
-        if(p->right) preorder(p->right);
-    }
-    else return;
-}
-
-void AVL::print_postorder()
-{
-    postorder(root);
-}
-int AVL::coun(tree_node* x,int a)
+int AVL::coun(tree_node* x, type_tree_data a)
 {
     if(x==nullptr) return 0;
     if(a>x->data){
@@ -325,60 +291,98 @@ int AVL::coun(tree_node* x,int a)
         return coun(x->left,a);
     }
 }
-void AVL::postorder(tree_node* p)
-{
-    if(p != nullptr)
-    {
-        if(p->left) postorder(p->left);
-        if(p->right) postorder(p->right);
-        cout<<" "<<p->data<<" ";
-    }
-    else return;
-}
+
+// void AVL::print_inorder()
+// {
+//   inorder(root);
+// }
+
+// void AVL::inorder(tree_node* p)
+// {
+//     if(p != nullptr)
+//     {
+//         if(p->left) inorder(p->left);
+//         cout<<" "<<p->data<<" ";
+//         if(p->right) inorder(p->right);
+//     }
+//     else return;
+// }
+
+// void AVL::print_preorder()
+// {
+//     preorder(root);
+// }
+
+// void AVL::preorder(tree_node* p)
+// {
+//     if(p != nullptr)
+//     {
+//         cout<<" "<<p->data<<" ";
+//         if(p->left) preorder(p->left);
+//         if(p->right) preorder(p->right);
+//     }
+//     else return;
+// }
+
+// void AVL::print_postorder()
+// {
+//     postorder(root);
+// }
+
+// void AVL::postorder(tree_node* p)
+// {
+//     if(p != nullptr)
+//     {
+//         if(p->left) postorder(p->left);
+//         if(p->right) postorder(p->right);
+//         cout<<" "<<p->data<<" ";
+//     }
+//     else return;
+// }
 
 
 
-int n;
-int a;
-char c;
-AVL tree;
-unordered_map<int,int> mm;
-int main()
-{
-  //  freopen("code.in","r",stdin);
-   // freopen("code.ou1","w",stdout);
-    scanf("%d\n",&n);
-   // cout << n << endl;
-    for(int i=1;i<=n;i++){
-        scanf("%c",&c);
-        scanf("%d\n",&a);
-       //cout << c <<" ";
-        if(c=='I'){
-            if(mm[a]==0){
-                tree.insert(a);
-                mm[a] = 1;
-            //    cout << c <<" ";
-            }
-        }
-        if(c=='D'){
-            if(mm[a]==1){
-                mm[a] = 0;
-                tree.root = tree.deleteNode(tree.root,a);
-             //   cout << c <<" ";
-            }
-        }
-        if(c=='K'){
-            tree_node* tmp = tree.kthMaxValueNode(tree.root,a);
-            if(tmp == NULL)
-                printf("invalid\n");
-            else
-                printf("%d\n",tmp->data);
-            //delete tmp;
-        }
-        if(c=='C'){
-            printf("%d\n",tree.coun(tree.root,a));
-        }
-        //tree.print_inorder();
-        //cout << endl;
-    }
-}
+// int n;
+// int a;
+// char c;
+// AVL tree;
+// unordered_map<int,int> mm;
+// int main()
+// {
+//   //  freopen("code.in","r",stdin);
+//    // freopen("code.ou1","w",stdout);
+//     scanf("%d\n",&n);
+//    // cout << n << endl;
+//     for(int i=1;i<=n;i++){
+//         scanf("%c",&c);
+//         scanf("%d\n",&a);
+//        //cout << c <<" ";
+//         if(c=='I'){
+//             if(mm[a]==0){
+//                 tree.insert(a);
+//                 mm[a] = 1;
+//             //    cout << c <<" ";
+//             }
+//         }
+//         if(c=='D'){
+//             if(mm[a]==1){
+//                 mm[a] = 0;
+//                 tree.root = tree.deleteNode(tree.root,a);
+//              //   cout << c <<" ";
+//             }
+//         }
+//         if(c=='K'){
+//             tree_node* tmp = tree.kthMaxValueNode(tree.root,a);
+//             if(tmp == NULL)
+//                 printf("invalid\n");
+//             else
+//                 printf("%d\n",tmp->data);
+//             //delete tmp;
+//         }
+//         if(c=='C'){
+//             printf("%d\n",tree.coun(tree.root,a));
+//         }
+//         //tree.print_inorder();
+//         //cout << endl;
+//     }
+// }
