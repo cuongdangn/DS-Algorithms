@@ -1,7 +1,5 @@
-
-
 /*
-    Interval tree
+    Interval tree lazy_update
 */
 #include <bits/stdc++.h>
 
