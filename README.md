@@ -9,12 +9,16 @@
 - Trie
 
 ## Algorithms
-- Euler's totient
+### Graph
 - Heavy-light decomposition
 - LCA
 - Dijkstra
+- Kruskal
+- Prim
+- Bridge_Finding.cpp
+
+### Others
 - Gauss
 - KMP
-- Kruskal
 - Mo's
-- Prim
+- Sieve of Eratosthenes
